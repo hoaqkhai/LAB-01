@@ -1,0 +1,45 @@
+Data Flow Diagram – Lên lịch & Xuất bản đa kênh
+1. Actor & External Entities
+
+-Content Manager → Người soạn và lên lịch xuất bản nội dung.
+
+-Mạng xã hội (Facebook, TikTok, YouTube, Zalo) → Hệ thống bên ngoài nhận nội dung.
+
+-Khách hàng (End User) → Người dùng cuối tiêu thụ nội dung.
+
+2. Process chính
+
+-P1: Soạn thảo & Lưu nội dung
+Content Manager tạo bài viết, tải ảnh/video → Hệ thống CMS lưu trữ.
+
+-P2: Lên lịch xuất bản
+Content Manager chọn kênh xuất bản và thời gian.
+
+-P3: Gửi API xuất bản đa kênh
+Hub Media gọi API đến các MXH (FB, TikTok, YouTube, Zalo).
+
+-P4: Nhận phản hồi & Cập nhật trạng thái
+Hệ thống nhận phản hồi từ MXH (thành công/thất bại) → lưu vào Database.
+
+-P5: Người dùng cuối xem nội dung
+Khách hàng thấy nội dung trên Web hoặc các kênh MXH.
+
+3. Data Store (Kho dữ liệu)
+
+-D1: CMS Database – lưu bài viết, hình ảnh, video.
+
+-D2: Lịch xuất bản – lưu thông tin kênh, thời gian đăng.
+
+-D3: Nhật ký phản hồi – lưu kết quả xuất bản (success/fail).
+
+4. Luồng dữ liệu
+
+-Content Manager → (soạn bài) → P1: Soạn & Lưu nội dung → D1: CMS Database.
+
+-Content Manager → (chọn lịch & kênh) → P2: Lên lịch xuất bản → D2: Lịch xuất bản.
+
+-P2 → P3: Gửi API đa kênh → FB/TikTok/YouTube/Zalo.
+
+-FB/TikTok/YouTube/Zalo → (kết quả phản hồi) → P4: Cập nhật trạng thái → D3: Nhật ký phản hồi.
+
+-Khách hàng → (truy cập web hoặc MXH) → P5: Xem nội dung.
