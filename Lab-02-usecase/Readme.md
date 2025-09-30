@@ -8,80 +8,82 @@ Tên Use Case: Lên lịch xuất bản nội dung
 Tác nhân chính: Content Manager, Admin
 Mục tiêu: Cho phép người dùng lên lịch để bài viết hoặc video được tự động đăng trên các kênh (FB, TikTok, Zalo, YouTube).
 
-Mô tả ngắn gọn:
+### Mô tả ngắn gọn:
+
 Người dùng chọn nội dung, chọn kênh xuất bản, đặt thời gian, hệ thống lưu lịch và đến thời điểm sẽ tự động đăng.
 
-Dòng sự kiện chính (Main Flow):
+### Dòng sự kiện chính (Main Flow):
 
-Content Manager đăng nhập hệ thống.
+- Content Manager đăng nhập hệ thống.
 
-Chọn chức năng “Lên lịch xuất bản”.
+- Chọn chức năng “Lên lịch xuất bản”.
 
-Chọn bài viết/video đã chuẩn bị trong CMS.
+- Chọn bài viết/video đã chuẩn bị trong CMS.
 
-Chọn kênh xuất bản (FB, TikTok, YouTube, Zalo, Web).
+- Chọn kênh xuất bản (FB, TikTok, YouTube, Zalo, Web).
 
-Nhập ngày giờ xuất bản.
+- Nhập ngày giờ xuất bản.
 
-Xác nhận và lưu.
+- Xác nhận và lưu.
 
-Đến thời gian đã hẹn, hệ thống gọi API kênh MXH để đăng nội dung.
+- Đến thời gian đã hẹn, hệ thống gọi API kênh MXH để đăng nội dung.
 
-Hệ thống thông báo “Xuất bản thành công”.
+- Hệ thống thông báo “Xuất bản thành công”.
 
-Luồng thay thế (Alternative Flow):
+### Luồng thay thế (Alternative Flow):
 
-Nếu API MXH bị lỗi → hệ thống ghi log & retry 3 lần.
+- Nếu API MXH bị lỗi → hệ thống ghi log & retry 3 lần.
 
-Nếu vẫn lỗi → gửi thông báo cho Admin.
+- Nếu vẫn lỗi → gửi thông báo cho Admin.
 
-Điều kiện tiên quyết (Precondition):
+### Điều kiện tiên quyết (Precondition):
 
-Nội dung đã được tạo & duyệt trong CMS.
+- Nội dung đã được tạo & duyệt trong CMS.
 
-Người dùng có quyền xuất bản.
+- Người dùng có quyền xuất bản.
 
-Điều kiện sau (Postcondition):
+### Điều kiện sau (Postcondition):
 
-Nội dung được xuất bản đúng giờ hoặc có thông báo lỗi.
+- Nội dung được xuất bản đúng giờ hoặc có thông báo lỗi.
 
 ## Use Case 2: Livestream bán hàng
 
-Tên Use Case: Livestream bán hàng
-Tác nhân chính: Content Manager, Customer, Moderator
-Mục tiêu: Tổ chức buổi livestream giới thiệu sản phẩm, khách hàng có thể bình luận và đặt câu hỏi theo thời gian thực.
+- Tên Use Case: Livestream bán hàng
+- Tác nhân chính: Content Manager, Customer, Moderator
+- Mục tiêu: Tổ chức buổi livestream giới thiệu sản phẩm, khách hàng có thể bình luận và đặt câu hỏi theo thời gian thực.
 
-Mô tả ngắn gọn:
-Content Manager khởi tạo phiên livestream, khách hàng tham gia xem, Moderator quản lý bình luận và chat.
+### Mô tả ngắn gọn:
 
-Dòng sự kiện chính (Main Flow):
+- Content Manager khởi tạo phiên livestream, khách hàng tham gia xem, Moderator quản lý bình luận và chat.
 
-Content Manager đăng nhập và chọn “Bắt đầu Livestream”.
+### Dòng sự kiện chính (Main Flow):
 
-Hệ thống kết nối với camera/micro, hiển thị video trực tiếp.
+- Content Manager đăng nhập và chọn “Bắt đầu Livestream”.
 
-Customer tham gia livestream qua link chia sẻ.
+- Hệ thống kết nối với camera/micro, hiển thị video trực tiếp.
 
-Customer gửi bình luận/chat.
+- Customer tham gia livestream qua link chia sẻ.
 
-Moderator kiểm duyệt bình luận (ẩn spam, duyệt hợp lệ).
+- Customer gửi bình luận/chat.
 
-Livestream kết thúc → hệ thống lưu video VOD.
+- Moderator kiểm duyệt bình luận (ẩn spam, duyệt hợp lệ).
 
-Luồng thay thế (Alternative Flow):
+- Livestream kết thúc → hệ thống lưu video VOD.
 
-Nếu kết nối livestream mất ổn định → hệ thống tự động reconnect.
+### Luồng thay thế (Alternative Flow):
 
-Nếu bình luận chứa từ khóa spam → tự động lọc và chặn.
+- Nếu kết nối livestream mất ổn định → hệ thống tự động reconnect.
 
-Điều kiện tiên quyết (Precondition):
+- Nếu bình luận chứa từ khóa spam → tự động lọc và chặn.
 
-Hệ thống được kết nối với kênh MXH (FB Live, YouTube Live).
+### Điều kiện tiên quyết (Precondition):
 
-Có ít nhất một Content Manager và Moderator tham gia.
+- Hệ thống được kết nối với kênh MXH (FB Live, YouTube Live).
 
-Điều kiện sau (Postcondition):
+- Có ít nhất một Content Manager và Moderator tham gia.
 
-Video được lưu dưới dạng VOD để xem lại.
+### Điều kiện sau (Postcondition):
 
-Thống kê lượt xem, bình luận được lưu cho báo cáo.
+- Video được lưu dưới dạng VOD để xem lại.
+
+- Thống kê lượt xem, bình luận được lưu cho báo cáo.
