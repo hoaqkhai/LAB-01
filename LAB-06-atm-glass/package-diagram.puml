@@ -1,0 +1,44 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+package "User Management" {
+  class User
+  class Role
+  class SocialLogin
+}
+
+package "Content Management" {
+  class Content
+  class Media
+}
+
+package "Scheduling & Publishing" {
+  class Schedule
+  class Channel
+}
+
+package "Campaign Management" {
+  class Campaign
+}
+
+package "Engagement" {
+  class Comment
+  class Livestream
+}
+
+package "Analytics & SEO" {
+  class Analytics
+  class SEOReport
+}
+
+' ==== Relationships (không label để tránh đè chữ) ====
+User --> Content
+Content --> Schedule
+Schedule --> Channel
+Campaign --> Content
+Content --> Comment
+Analytics --> Content
+SEOReport --> Content
+
+@enduml

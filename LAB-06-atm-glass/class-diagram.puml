@@ -1,0 +1,66 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' ==== Classes ====
+class User {
+  +user_id: int
+  +username: string
+  +email: string
+  +password: string
+  +role: string
+}
+
+class Content {
+  +content_id: int
+  +title: string
+  +body: text
+  +media_url: string
+  +status: string
+}
+
+class Schedule {
+  +schedule_id: int
+  +publish_time: datetime
+  +status: string
+}
+
+class Channel {
+  +channel_id: int
+  +name: string
+  +type: string
+  +api_token: string
+}
+
+class Campaign {
+  +campaign_id: int
+  +name: string
+  +objective: string
+  +budget: double
+}
+
+class Comment {
+  +comment_id: int
+  +user_id: int
+  +content: text
+  +status: string
+}
+
+class Analytics {
+  +analytics_id: int
+  +views: int
+  +clicks: int
+  +engagement_rate: double
+  +seo_score: double
+}
+
+' ==== Relationships ====
+User "1" -- "many" Content : creates >
+Content "1" -- "many" Schedule : scheduled >
+Schedule "many" -- "1" Channel : publish to >
+Content "1" -- "many" Comment : receives >
+User "1" -- "many" Comment : writes >
+Campaign "1" -- "many" Content : includes >
+Content "1" -- "many" Analytics : generates >
+
+@enduml
