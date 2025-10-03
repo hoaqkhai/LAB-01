@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Model</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+      }
+      .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        width: 480px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+      }
+      h2 {
+        color: #333;
+        margin-bottom: 5px;
+      }
+      p.subtext {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+        text-align: left;
+      }
+      input,
+      select {
+        width: 100%;
+        margin-top: 6px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      button {
+        padding: 12px 20px;
+        background: #007bff;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background 0.3s;
+        width: 100%;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .log-box {
+        margin-top: 25px;
+        text-align: left;
+        max-height: 250px;
+        overflow-y: auto;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+      }
+      .pending {
+        color: orange;
+        font-weight: bold;
+      }
+      .published {
+        color: green;
+        font-weight: bold;
+      }
+
+      /* Popup thông báo */
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #4caf50;
+        color: white;
+        padding: 20px 40px;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        display: none;
+        font-size: 16px;
+        font-weight: bold;
+        z-index: 1000;
+        animation: fadeInOut 3s ease forwards;
+      }
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -60%);
+        }
+        10% {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -40%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Lên lịch xuất bản</h2>
+      <p class="subtext">Tạo và quản lý lịch đăng nội dung trên nhiều kênh</p>
+
+      <label>Nội dung chính:</label>
+      <input
+        type="text"
+        id="content"
+        placeholder="Ví dụ: Giới thiệu sản phẩm mới..."
+      />
+
+      <label>Nội dung phụ:</label>
+      <input
+        type="text"
+        id="subtitle"
+        placeholder="Ví dụ: Giảm giá 20% tuần này"
+      />
+
+      <label>Kênh xuất bản:</label>
+      <select id="channel">
+        <option value="">--Chọn kênh--</option>
+        <option>Facebook</option>
+        <option>TikTok</option>
+        <option>YouTube</option>
+        <option>Zalo</option>
+      </select>
+
+      <label>Thời gian xuất bản:</label>
+      <input type="datetime-local" id="time" />
+
+      <button onclick="addSchedule()">Lưu lịch xuất bản</button>
+
+      <div class="log-box">
+        <h3>Danh sách lịch đã tạo</h3>
+        <ul id="scheduleList"></ul>
+      </div>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">✅ Nội dung đã được xuất bản thành công!</div>
+
+    <script>
+      let schedules = [];
+
+      function addSchedule() {
+        const content = document.getElementById("content").value;
+        const subtitle = document.getElementById("subtitle").value;
+        const channel = document.getElementById("channel").value;
+        const time = document.getElementById("time").value;
+
+        if (!content || !channel || !time) {
+          alert("Vui lòng nhập đủ thông tin!");
+          return;
+        }
+
+        const schedule = {
+          content,
+          subtitle,
+          channel,
+          time: new Date(time),
+          status: "Pending",
+        };
+
+        schedules.push(schedule);
+        renderSchedules();
+
+        // reset form
+        document.getElementById("content").value = "";
+        document.getElementById("subtitle").value = "";
+        document.getElementById("channel").value = "";
+        document.getElementById("time").value = "";
+      }
+
+      function renderSchedules() {
+        const list = document.getElementById("scheduleList");
+        list.innerHTML = "";
+        schedules.forEach((s) => {
+          let li = document.createElement("li");
+          li.innerHTML = `[<span class="${s.status.toLowerCase()}">${
+            s.status
+          }</span>] 
+          <b>${s.content}</b> - <i>${s.subtitle}</i><br>
+          Kênh: ${s.channel} | Thời gian: ${s.time.toLocaleString()}`;
+          list.appendChild(li);
+        });
+      }
+
+      function showPopup(message) {
+        const popup = document.getElementById("popup");
+        popup.innerText = message;
+        popup.style.display = "block";
+        setTimeout(() => {
+          popup.style.display = "none";
+        }, 3000);
+      }
+
+      // Tự động kiểm tra trạng thái
+      setInterval(() => {
+        const now = new Date();
+        schedules.forEach((s) => {
+          if (s.status === "Pending" && now >= s.time) {
+            s.status = "Published";
+            showPopup(
+              `✅ Nội dung "${s.content}" đã được xuất bản lên ${s.channel}!`
+            );
+          }
+        });
+        renderSchedules();
+      }, 1000);
+    </script>
+  </body>
+</html>
