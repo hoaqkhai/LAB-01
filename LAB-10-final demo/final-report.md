@@ -115,7 +115,7 @@ CREATE TABLE `users` (
     `role` ENUM('Admin','Content','Marketer') NOT NULL,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-## 3.1 Code SQL minh họa
+## 3.1 Login form + chức năng demo
 * Đăng nhập/Đăng ký    
   ![Login](https://github.com/hoaqkhai/LAB-01/blob/main/Lab-04/Login.png)
 ## 4. Kết quả chạy test
